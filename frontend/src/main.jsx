@@ -211,7 +211,7 @@ const Shell = ({ children }) => {
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="/clean-in">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route
