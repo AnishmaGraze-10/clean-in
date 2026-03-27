@@ -1,0 +1,57 @@
+{
+  "name": "clean-in-backend",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Express backend for Clean-In monorepo with MongoDB, JWT auth, Swagger docs, and CI-ready scripts.",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "lint": "eslint .",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
+    "test:unit": "NODE_OPTIONS=--experimental-vm-modules jest __tests__/utils.test.js",
+    "test:integration": "NODE_OPTIONS=--experimental-vm-modules jest __tests__/auth.test.js __tests__/wasteReport.test.js"
+  },
+  "keywords": [
+    "express",
+    "mongodb",
+    "jwt",
+    "swagger"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.13.6",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.9.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^8.3.1",
+    "firebase-admin": "^13.7.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.5",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "node-cache": "^5.1.2",
+    "sharp": "^0.34.5",
+    "socket.io": "^4.8.3",
+    "streamifier": "^0.1.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "xss": "^1.0.15"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.29.0",
+    "eslint": "^9.0.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-n": "^17.15.1",
+    "eslint-plugin-promise": "^6.6.0",
+    "jest": "^30.3.0",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.2.2"
+  }
+}

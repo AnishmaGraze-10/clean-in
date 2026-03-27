@@ -1,0 +1,464 @@
+{
+  "info": {
+    "name": "Clean-In Smart City Waste Management API",
+    "description": "Complete API collection for Clean-In waste management system",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Clean-In API Support",
+      "email": "api@clean-in.com"
+    }
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "authToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "API Health",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/health",
+            "description": "Check if API is running"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/register",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"citizen\"\n}"
+            },
+            "description": "Register a new citizen user"
+          }
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/login",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "description": "Login and get JWT token"
+          }
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/auth/me",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "description": "Get current authenticated user profile"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Waste Reports",
+      "item": [
+        {
+          "name": "Create Report",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/reports",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "/path/to/image.jpg"
+                },
+                {
+                  "key": "description",
+                  "value": "Waste found at this location",
+                  "type": "text"
+                },
+                {
+                  "key": "latitude",
+                  "value": "10.8505",
+                  "type": "text"
+                },
+                {
+                  "key": "longitude",
+                  "value": "76.2711",
+                  "type": "text"
+                },
+                {
+                  "key": "zone",
+                  "value": "Zone 1",
+                  "type": "text"
+                }
+              ]
+            },
+            "description": "Submit a new waste report with image"
+          }
+        },
+        {
+          "name": "Get User Reports",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/reports/user",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "description": "Get all reports submitted by current user"
+          }
+        },
+        {
+          "name": "Get All Reports",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/reports",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "description": "Get all reports (admin only)"
+          }
+        },
+        {
+          "name": "Get Pending Reports",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/reports/pending",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "description": "Get pending reports for verification (admin only)"
+          }
+        },
+        {
+          "name": "Verify Report",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/reports/{{reportId}}/verify",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"verified\",\n  \"notes\": \"Report verified successfully\"\n}"
+            },
+            "description": "Verify or reject a report (admin only)"
+          }
+        },
+        {
+          "name": "Get Nearby Reports",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/reports/nearby?latitude=10.8505&longitude=76.2711&radius=5000",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "description": "Get reports within radius (in meters)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Rewards",
+      "item": [
+        {
+          "name": "Get Rewards Catalog",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/rewards",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "description": "Get all available rewards"
+          }
+        },
+        {
+          "name": "Get User Redemptions",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/rewards/redemptions",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "description": "Get user's reward redemption history"
+          }
+        },
+        {
+          "name": "Redeem Reward",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/rewards/redeem",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rewardId\": \"reward_id_here\"\n}"
+            },
+            "description": "Redeem points for a reward"
+          }
+        },
+        {
+          "name": "Get Leaderboard",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/rewards/leaderboard?limit=10",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "description": "Get top users by points"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Analytics (Admin)",
+      "item": [
+        {
+          "name": "Daily Statistics",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/analytics/daily?startDate=2026-01-01&endDate=2026-12-31",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "description": "Get daily report statistics"
+          }
+        },
+        {
+          "name": "Waste Type Distribution",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/analytics/waste-types",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "description": "Get waste type distribution"
+          }
+        },
+        {
+          "name": "Zone Statistics",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/reports/zones",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "description": "Get zone-wise statistics"
+          }
+        },
+        {
+          "name": "Efficiency Metrics",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/analytics/efficiency",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "description": "Get collection efficiency metrics"
+          }
+        },
+        {
+          "name": "Participation Trends",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/analytics/participation",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "description": "Get citizen participation trends"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Challenges",
+      "item": [
+        {
+          "name": "Get Active Challenges",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/challenges/active",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "description": "Get all active challenges"
+          }
+        },
+        {
+          "name": "Get User Progress",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/challenges/user-progress",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "description": "Get current user's challenge progress"
+          }
+        },
+        {
+          "name": "Complete Challenge",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/challenges/complete",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"challengeId\": \"challenge_id_here\"\n}"
+            },
+            "description": "Mark a challenge as complete"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Route Optimization",
+      "item": [
+        {
+          "name": "Optimize Route",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/routes/optimize",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reportIds\": [\"report1\", \"report2\", \"report3\"],\n  \"startLat\": 10.8505,\n  \"startLng\": 76.2711\n}"
+            },
+            "description": "Get optimized route for waste collection"
+          }
+        },
+        {
+          "name": "Get Available Zones",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/reports/zones",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "description": "Get all zones with pending reports"
+          }
+        }
+      ]
+    }
+  ]
+}
